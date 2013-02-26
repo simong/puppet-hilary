@@ -1,4 +1,10 @@
 
+###################
+## PUPPET MASTER ##
+###################
+
+node 'puppet' inherits puppetnode { }
+
 ###############
 ## WEB PROXY ##
 ###############
@@ -150,6 +156,11 @@ node 'search0' inherits basenode {
     max_memory_mb => 3072,
     min_memory_mb => 3072,
   }
+
+  class {'nagios::target':
+    provider    => 'yum',
+    hostgroups  => 'searchservers',
+  }
 }
 
 node 'search1' inherits basenode {
@@ -160,23 +171,20 @@ node 'search1' inherits basenode {
     max_memory_mb => 3072,
     min_memory_mb => 3072,
   }
+
+  class {'nagios::target':
+    provider    => 'yum',
+    hostgroups  => 'searchservers',
+  }
 }
 
 #################
 ## REDIS NODES ##
 #################
 
-node 'cache0' inherits basenode {
-  class { 'redis': }
-}
+node 'cache0' inherits cachenode { }
 
-node 'activity-cache' inherits basenode {
-  class { 'redis':
-    eviction_maxmemory  => 3758096384,
-    eviction_policy     => 'volatile-ttl',
-    eviction_samples    => 3
-  }
-}
+node 'activity-cache' inherits cacheactivitynode { }
 
 #################
 ## LOAD DRIVER ##

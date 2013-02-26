@@ -8,6 +8,9 @@ class localconfig {
   $pp_user    = 'root'
   $pp_group   = 'root'
 
+  # Puppetmaster/nagios admin
+  $nagios_server = '10.112.0.255'
+
   # Web servers
   $web_hosts = ['165.225.133.115']
 

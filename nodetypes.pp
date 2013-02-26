@@ -4,6 +4,17 @@ node basenode {
   class { 'localconfig': }
 }
 
+# The puppet master node also services as the nagios monitoring node.
+node puppetnode inherits basenode {
+  class { 'nagios::server': }
+
+  # Configure puppetdb and its underlying database
+  include puppetdb
+
+  # Configure the puppet master to use puppetdb
+  include puppetdb::master::config
+}
+
 node drivernode inherits basenode {
   class { 'tsung': }
 
@@ -91,6 +102,15 @@ node appnode inherits basenode {
     sourcedir  => $localconfig::nfs_sourcedir,
   }
 
+  class { 'nagios::target':
+    provider    => pkgin,
+    hostgroups  => 'appservers',
+    require     => Class['hilary'],
+  }
+
+  class { 'hilary::nagios':
+    require     => Class['nagios::target'],
+  }
 }
 
 node activitynode inherits basenode {
@@ -117,6 +137,11 @@ node activitynode inherits basenode {
   file { '/shared':
     ensure => 'directory',
     before => Class['hilary']
+  }
+
+  class {'nagios::target':
+    provider    => 'pkgin',
+    hostgroups  => 'activityservers',
   }
 }
 
@@ -157,6 +182,11 @@ node ppnode inherits linuxnode {
   file { '/shared':
     ensure => 'directory',
     before => Class['hilary']
+  }
+
+  class {'nagios::target':
+    provider    => 'apt',
+    hostgroups  => 'ppservers',
   }
 }
 
@@ -218,6 +248,16 @@ node dbnode inherits linuxnode {
   # Use devel package so we actually get the JDK..
   package { 'java-1.6.0-openjdk-devel':
     ensure  => installed,
+  }
+
+  class {'nagios::target':
+    provider    => 'yum',
+    hostgroups  => 'dbservers',
+    require     => Class['cassandra::common'],
+  }
+
+  class { 'cassandra::nagios':
+    require     => Class['nagios::target'],
   }
 }
 

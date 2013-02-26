@@ -126,7 +126,9 @@ class hilary (
         require  => [ File['/etc/init.d/hilary'],
                       Vcsrepo[$ux_root_dir],
                       Exec["npm_install_dependencies"],
-                    ]
+                      File["${app_root_dir}/config.js"]
+                    ],
+        subscribe => File["${app_root_dir}/config.js"],     # Restart the service when the config gets refreshed.
       }
     }
     solaris, Solaris: {
@@ -152,7 +154,8 @@ class hilary (
         require  => [ Exec["svccfg_${service_name}"],
                       Vcsrepo[$ux_root_dir],
                       Exec["npm_install_dependencies"],
-                    ]
+                    ],
+        subscribe => File["${app_root_dir}/config.js"],     # Restart the service when the config gets refreshed.
       }
     }
     default: {
@@ -160,5 +163,53 @@ class hilary (
         command   => fail("No support yet for ${::operatingsystem}")
       }
     }
+  }
+}
+
+
+################
+## MONITORING ##
+################
+
+class hilary::nagios {
+
+  @@nagios_service { "check_app_running_${hostname}":
+      use                 => "generic-service",
+      service_description => "APP",
+      host_name           => "$hostname",
+      check_command       => "check_nrpe_1arg!check_app_running",
+      target              => "/etc/nagios3/conf.d/puppet/services/$hostname-check-app-running.cfg",
+  }
+
+  @@nagios_service { "check_app_http_admin_${hostname}":
+      use                 => "generic-service",
+      service_description => "HTTP ADMIN",
+      host_name           => "$hostname",
+      check_command       => "check_nrpe_1arg!check_app_http_admin",
+      target              => "/etc/nagios3/conf.d/puppet/services/$hostname-check-app-http-admin.cfg",
+  }
+
+  @@nagios_service { "check_app_http_tenant_${hostname}":
+      use                 => "generic-service",
+      service_description => "HTTP TENANT",
+      host_name           => "$hostname",
+      check_command       => "check_nrpe_1arg!check_app_http_tenant",
+      target              => "/etc/nagios3/conf.d/puppet/services/$hostname-check-app-http-tenant.cfg",
+  }
+
+  @@nagios_service { "check_disk_tmp_${hostname}":
+      use                 => "generic-service",
+      service_description => "DISK TMP",
+      host_name           => "$hostname",
+      check_command       => "check_nrpe_1arg!check_disk_tmp",
+      target              => "/etc/nagios3/conf.d/puppet/services/$hostname-check-disk-tmp.cfg",
+  }
+
+  @@nagios_service { "check_disk_shared_${hostname}":
+      use                 => "generic-service",
+      service_description => "DISK SHARED",
+      host_name           => "$hostname",
+      check_command       => "check_nrpe_1arg!check_disk_shared",
+      target              => "/etc/nagios3/conf.d/puppet/services/$hostname-check-disk-shared.cfg",
   }
 }
