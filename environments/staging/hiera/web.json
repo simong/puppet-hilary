@@ -4,6 +4,7 @@
         "::oaeservice::nginx",
         "::oaeservice::hilary::files",
         "::oaeservice::ui",
+        "::oaeservice::munin::nginx",
         "::oaeservice::nagios::nginx",
         "::oaeservice::nagios::disk::shared"
     ],

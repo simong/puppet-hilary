@@ -2,6 +2,7 @@
     "classes": [
         "::oaeservice::firewall::ssh",
         "::oaeservice::puppet",
+        "::oaeservice::munin::master",
         "::oaeservice::nagios::server",
         "::oaeservice::nagios::puppet"
     ],

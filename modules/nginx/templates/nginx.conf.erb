@@ -27,6 +27,19 @@ http {
     limit_req_zone  $binary_remote_addr  zone=addr_api:10m      rate=20r/s;
     limit_req_log_level error;
 
+    # Spin up a server that only allows connections on the local loopback.
+    # This is useful for nagios and/or munin monitoring.
+    server {
+        listen 127.0.0.1;
+        server_name localhost;
+        location /nginx_status {
+            stub_status on;
+            access_log   off;
+            allow 127.0.0.1;
+            deny all;
+        }
+    }
+
     ##################
     ##################
     ## GLOBAL ADMIN ##

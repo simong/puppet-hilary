@@ -295,13 +295,8 @@ class nagios::server (
   # way to automate it.
   # Use cpanminus to set a simple cpan up and use simple exec's to get the dependencies
   
-  exec { 'install_cpanm':
-    command => '/usr/bin/perl /etc/puppet/puppet-hilary/modules/nagios/templates/cpanm.pl --self-upgrade'
-  }
-
-  exec { 'install_perl_nagios_plugins':
-    command => '/usr/local/bin/cpanm URI && /usr/local/bin/cpanm JSON && /usr/local/bin/cpanm LWP::UserAgent && /usr/local/bin/cpanm Nagios::Plugin',
-    require => Exec['install_cpanm'],
+  class { 'cpanm::install':
+    libraries => [ 'URI', 'JSON', 'LWP::UserAgent', 'Nagios::Plugin' ]
   }
   
 
