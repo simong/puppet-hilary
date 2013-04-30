@@ -1,23 +1,6 @@
 #!/bin/sh
 #
 # Plugin to monitor the number of principals stored in the cassandra CF.
-#
-# Usage: Link or copy into /etc/munin
-#
-# Parameters
-#     env.conn_warn <warning connections>
-#     env.conn_crit <critical connections>
-#
-# Magic markers (optional - only used by munin-config and some
-# installation scripts):
-#
-#%# family=auto
-#%# capabilities=autoconf
-
-# If run with the "autoconf"-parameter, give our opinion on wether we
-# should be run on this system or not. This is optinal, and only used by
-# munin-config. In the case of this plugin, we should most probably
-# always be included.
 
 if [ "$1" = "autoconf" ]; then
         echo yes

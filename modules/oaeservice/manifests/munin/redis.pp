@@ -25,4 +25,9 @@ class oaeservice::munin::redis {
     content => template('munin/plugins/redis/redis_keys'),
     mode    => 1777,
   }
+  file { '/etc/munin/plugins/redis_latency':
+    ensure  => present,
+    content => template('munin/plugins/redis/redis_latency'),
+    mode    => 1777,
+  }
 }
