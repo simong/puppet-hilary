@@ -118,23 +118,23 @@ node 'search1' inherits search {
 ## REDIS NODES ##
 #################
 
-node 'cache-master' inherits cache {
-  $nodesuffix = '-master'
+node 'cache0' inherits cache {
+  $nodesuffix = 0
   hiera_include(classes)
 }
 
-node 'cache-slave' inherits cache {
-  $nodesuffix = '-slave'
+node 'cache1' inherits cache {
+  $nodesuffix = 1
   hiera_include(classes)
 }
 
-node 'activity-cache-master' inherits activity-cache {
-  $nodesuffix = '-master'
+node 'activity-cache0' inherits activity-cache {
+  $nodesuffix = 0
   hiera_include(classes)
 }
 
-node 'activity-cache-slave' inherits activity-cache {
-  $nodesuffix = '-slave'
+node 'activity-cache1' inherits activity-cache {
+  $nodesuffix = 1
   hiera_include(classes)
 }
 
@@ -142,13 +142,13 @@ node 'activity-cache-slave' inherits activity-cache {
 ## MESSAGING NODES ##
 #####################
 
-node 'mq-master' inherits mq {
-  $nodesuffix = '-master'
+node 'mq0' inherits mq {
+  $nodesuffix = 0
   hiera_include(classes)
 }
 
-node 'mq-slave' inherits mq {
-  $nodesuffix = '-slave'
+node 'mq1' inherits mq {
+  $nodesuffix = 1
   hiera_include(classes)
 }
 
@@ -177,12 +177,12 @@ node 'pp2' inherits pp {
 ## ETHERPAD NODES ##
 ####################
 
-node 'ep0' inherits ep {
+node 'etherpad0' inherits ep {
   $nodesuffix = 0
   hiera_include(classes)
 }
 
-node 'ep1' inherits ep {
+node 'etherpad1' inherits ep {
   $nodesuffix = 1
   hiera_include(classes)
 }
@@ -209,5 +209,11 @@ node 'bastion' {
   hiera_include(classes)
 }
 
+#################
+## DRIVER NODE ##
+#################
 
-
+node 'driver' {
+  $nodetype = 'driver'
+  hiera_include(classes)
+}

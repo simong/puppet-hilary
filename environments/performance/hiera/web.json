@@ -1,8 +1,9 @@
 {
     "classes": [
+        "::oaeservice::firewall::web",
+        "::oaeservice::hilary::files",
         "::oaeservice::nginx",
         "::oaeservice::ui",
-        "::oaeservice::hilary::files",
         "::localconfig::ordering::web"
     ],
     "rsyslog::imfiles": [

@@ -8,11 +8,11 @@
     "nodetype": "%{nodetype}",
     "nodesuffix": "%{nodesuffix}",
 
-    "web_domain": "oae-performance.sakaiproject.org",
+    "web_domain": "oae-performance.oaeproject.org",
 
     "app_os_user": "root",
     "app_os_group": "root",
-    "app_hosts": [ "app0", "app1", "app2", "app3" ],
+    "app_hosts": [ "app0" ],
     "app_root_dir": "/opt/oae",
     "app_git_user": "sakaiproject",
     "app_git_branch": "master",
@@ -36,10 +36,10 @@
 
     "db_cluster_name": "Sakai OAE Performance Testing Cluster",
     "db_keyspace": "oae",
-    "db_hosts": [ "db0", "db1", "db2" ],
-    "db_tokens": [ "0", "56713727820156410577229101238628035242", "113427455640312821154458202477256070484" ],
+    "db_hosts": [ "db0" ],
+    "db_tokens": [ "0" ],
     "db_timeout": 5000,
-    "db_replication_factor": 3,
+    "db_replication_factor": 1,
     "db_strategy_class": "SimpleStrategy",
     "db_index": "%{nodesuffix}",
     "db_data_dir": "/data/cassandra",
@@ -51,14 +51,14 @@
     "phantomjs_version": "1.9.0",
     "phantomjs_checksum": "8075fa873d8741c7ae9093c80a589a1f",
 
-    "search_hosts": [ "search0", "search1" ],
+    "search_hosts": [ "search0" ],
     "search_index": "%{nodesuffix}",
     "search_data_dir": "/var/lib/elasticsearch",
     "search_memory_mb": 3072,
     "search_version": "0.20.6",
     "search_checksum": "8896b1dde95a09f27a3ec7d027f995ec27cd358f",
 
-    "etherpad_internal_hosts": [ "etherpad0", "etherpad1", "etherpad2" ],
+    "etherpad_internal_hosts": [ "etherpad0" ],
     "etherpad_external_protocol": "http",
     "etherpad_external_port": "80",
     "etherpad_index": "%{nodesuffix}",
@@ -66,12 +66,12 @@
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
     "etherpad_external_domain_label": "etherpad",
 
-    "cache_host": "cache-master",
+    "cache_host": "cache0",
 
     "activitycache_enabled": true,
-    "activitycache_host": "activity-cache-master",
+    "activitycache_host": "cache0",
 
-    "mq_hosts": [ "mq-master" ],
+    "mq_hosts": [ "mq0" ],
 
     "munin_allowed_regexes": [ "^127\\.0\\.0\\.1$", "^10\\.112\\.3\\.104$", "^75\\.102\\.43\\.87$", "^75\\.102\\.43\\.88$" ],
 
