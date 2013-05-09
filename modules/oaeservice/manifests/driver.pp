@@ -47,7 +47,7 @@ class oaeservice::driver {
     command => "/opt/oae-nightly-stats/nightly-run.sh",
     user    => 'root',
     target  => 'root',
-    hour    => 4,
+    hour    => 0,
     minute  => 0,
   }
 }
