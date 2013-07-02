@@ -15,7 +15,8 @@ class etherpad (
         $ep_oae_revision        = 'master',
         $etherpad_user          = 'etherpad',
         $service_name           = 'etherpad',
-        $enable_abiword         = false) {
+        $enable_abiword         = false,
+        $log_level              = 'WARN') {
 
 
     if ($enable_abiword) {

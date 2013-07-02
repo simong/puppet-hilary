@@ -68,6 +68,7 @@
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
     "etherpad_external_domain_label": "etherpad",
     "etherpad_enable_abiword": true,
+    "etherpad_log_level": "WARN",
 
     "cache_host": "proxy0",
     "cache_port": 6379,

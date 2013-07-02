@@ -19,5 +19,6 @@ class oaeservice::etherpad {
     oae_db_strategy_class => hiera('db_strategy_class'),
     oae_sign_key          => hiera('app_signing_key'),
     enable_abiword        => hiera('etherpad_enable_abiword'),
+    log_level             => hiera('etherpad_log_level'),
   }
 }

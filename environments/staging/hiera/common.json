@@ -73,6 +73,7 @@
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
     "etherpad_external_domain_label": "etherpad",
     "etherpad_enable_abiword": true,
+    "etherpad_log_level": "WARN",
 
     "cache_host": "proxy0",
     "cache_port": 6379,
@@ -91,7 +92,7 @@
     "email_smtp_user": "unset",
     "email_smtp_pass": "unset",
     "email_blacklisted_domains": ["example.com", "localhost", "127.0.0.1"],
-    
+
     "mq_hosts": [ "mq0" ],
 
     "munin_allowed_regexes": [ "^127\\.0\\.0\\.1$", "^10\\.112\\.3\\.104$", "^75\\.102\\.43\\.87$", "^75\\.102\\.43\\.88$" ],
