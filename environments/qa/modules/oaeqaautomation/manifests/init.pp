@@ -61,6 +61,10 @@ class oaeqaautomation ($log_file_path = '/var/log/nightly.log') {
         require => Exec['mkdir_scripts']
     }
 
+    file { '/var/log/oae':
+        ensure => 'directory',
+    }
+
     cron { 'nightly-backup':
         ensure  => present,
         command => "${scripts_dir}/nightly.sh >> ${log_file_path} 2>> ${log_file_path}",
