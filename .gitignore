@@ -3,3 +3,4 @@
 .node
 .vagrant
 *_hiera_secure.*
+modules/oracle-java/files/jdk-6u45-linux-x64.bin

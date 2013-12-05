@@ -55,11 +55,11 @@ class elasticsearch (
     require => Package['elasticsearch'],
   }
 
-  service { 'elasticsearch':
-    ensure  => 'running',
-    enable  => true,
-    require => [ Package['elasticsearch'], File['/etc/elasticsearch/elasticsearch.yml'],
+  exec { 'elasticsearch_running':
+    command   => '/etc/init.d/elasticsearch start',
+    unless    => '/usr/sbin/service elasticsearch status',
+    logoutput => true,
+    require   => [ Package['elasticsearch'], File['/etc/elasticsearch/elasticsearch.yml'],
       File['/etc/elasticsearch/logging.yml'], File['/etc/init.d/elasticsearch'], Exec['mkdir_data'] ],
   }
-
 }
