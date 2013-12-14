@@ -149,7 +149,7 @@ case "$1" in
         # Start Daemon
         start-stop-daemon --start -b --user "$ES_USER" -c "$ES_USER" --pidfile "$PID_FILE" --exec /bin/bash -- -c "$DAEMON $DAEMON_OPTS"
 
-        sleep 1
+        sleep 5
         if start-stop-daemon --test --start --pidfile "$PID_FILE" \
             --user "$ES_USER" --exec "$JAVA_HOME/bin/java" \
             >/dev/null; then
