@@ -9,5 +9,6 @@ class cpanm::install (
     exec { 'install_cpanm_$library':
         command => inline_template("/usr/local/bin/cpanm <%= (libraries).join(' ') %>"),
         require => Class['cpanm'],
+        onlyif  => inline_template("perldoc -l <%= (libraries).join(' ') %> 2>&1 | grep 'No documentation'"),
     }
 }

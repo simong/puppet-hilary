@@ -6,6 +6,12 @@ class cpanm {
     content => template('cpanm/cpanm.pl'),
   }
 
+  # Ensure the perldoc utility is present
+  # This will allow us to check if a module is already installed
+  package { 'perl-doc':
+    ensure => present,
+  }
+
   # Run the installer if cpanm is not installed.
   exec { 'install_cpanm':
     unless  => 'test -f /usr/local/bin/cpanm',
