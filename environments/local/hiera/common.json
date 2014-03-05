@@ -71,11 +71,12 @@
     "etherpad_api_key": "LSKDFJA0W9FJAOSIDFJ",
     "etherpad_session_key": "YzI3znrSsxByU1QsRtPZhX6tkxVUoQh1suIDrUcBtewrsBDLPkGRTP6oUqhL",
     "etherpad_install_method": "git",
-    "etherpad_apt_package_version": "1.2.91-4",
-    "etherpad_git_source": "https://github.com/ether/etherpad-lite",
-    "etherpad_git_revision": "1.2.91",
-    "etherpad_ep_oae_git_source": "https://github.com/oaeproject/ep_oae",
-    "etherpad_ep_oae_git_revision": "master",
+    "etherpad_install_config": {
+        "etherpad_source": "https://github.com/ether/etherpad-lite",
+        "etherpad_revision": "af50001769b6e129a7d5f4248508f17753f5e49d",
+        "ep_oae_source": "https://github.com/oaeproject/ep_oae",
+        "ep_oae_revision": "master"
+    },
     "etherpad_enable_abiword": true,
 
     "cache_host": "127.0.0.1",

@@ -8,36 +8,17 @@ class etherpad (
         $oae_db_replication,
         $oae_db_strategy_class,
 
-        $install_method         = 'apt',
-        $apt_package_version    = '1.2.91-4',
+        $install_method         = 'git',
+        $install_config         = {'etherpad_source' => 'https://github.com/ether/etherpad-lite', 'etherpad_revision' => 'master', 'ep_oae_source' => 'https://github.com/oaeproject/ep_oae', 'ep_oae_revision' => 'master'},
         $etherpad_dir           = '/opt/etherpad',
-        $etherpad_git_source    = 'https://github.com/ether/etherpad-lite',
-        $etherpad_git_revision  = '1.2.91',
-        $ep_oae_git_source      = 'https://github.com/oaeproject/ep_oae',
-        $ep_oae_git_revision    = 'master',
         $etherpad_user          = 'etherpad',
         $service_name           = 'etherpad',
         $enable_abiword         = false) {
 
-    # Install etherpad.
-    case $install_method {
-        'git': {
-            class { '::etherpad::install::git':
-                etherpad_dir            => $etherpad_dir,
-                etherpad_git_source     => $etherpad_git_source,
-                etherpad_git_revision   => $etherpad_git_revision,
-                ep_oae_git_source       => $ep_oae_git_source,
-                ep_oae_git_revision     => $ep_oae_git_revision,
-            }
-        }
-        'apt': {
-            class { '::etherpad::install::apt':
-                package_version => $apt_package_version
-            }
-        }
-        default: {
-            fail("Unknown install method for etherpad passed in: '${install_method}'")
-        }
+    # Install etherpad
+    class { "::etherpad::install::${install_method}":
+        install_config  => $install_config,
+        etherpad_dir    => $etherpad_dir,
     }
 
     Class["::etherpad::install::${install_method}"] -> File['etherpad_settings_json']
@@ -62,7 +43,7 @@ class etherpad (
         require     => Class["::etherpad::install::${install_method}"]
     }
 
-    # The file that will contain the shared secret.
+    # The file that will contain the shared secret
     file { 'etherpad_apikey_txt':
         path        => "${etherpad_dir}/APIKEY.txt",
         ensure      =>  present,
