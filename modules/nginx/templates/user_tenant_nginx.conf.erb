@@ -75,6 +75,27 @@ server {
 
     rewrite ^/admin$  /admin/index.html last;
 
+        ######################
+        ## AVOCET RESOURCES ##
+        ######################
+
+        location /avocet/ {
+            alias <%= app_ui_path %>/avocet/;
+            autoindex off;
+            expires -1;
+        }
+
+        # HTML files under /avocet are not hashed and should not be cached
+        location ~* /avocet/([^\.]+).html$ {
+            alias <%= app_ui_path %>/avocet/$1.html;
+            expires -1;
+        }
+
+        rewrite ^/$              /avocet/index.html last;
+        rewrite ^/me$            /avocet/me.html last;
+        rewrite ^/publication    /avocet/publication.html last;
+
+
 
     #######################
     ## MAIN UI RESOURCES ##
@@ -108,14 +129,6 @@ server {
         alias <%= app_ui_path %>/ui/$1.html;
         expires -1;
     }
-
-    rewrite ^/content           /ui/content.html last;
-    rewrite ^/discussion        /ui/discussion.html last;
-    rewrite ^/group             /ui/group.html last;
-    rewrite ^/me                /ui/me.html last;
-    # rewrite ^/$               /ui/index.html last;
-    rewrite ^/search            /ui/search.html last;
-    rewrite ^/user              /ui/user.html last;
 
 
     ######################

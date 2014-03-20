@@ -1,0 +1,73 @@
+#!/bin/sh
+
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games
+
+echo ""
+echo ""
+echo ""
+echo "Nightly Run: `date`"
+echo "========================================================="
+echo ""
+
+
+
+echo "Shutting down services..."
+<%= scripts_dir %>/shutdown.sh
+
+echo ""
+echo "Deleting data..."
+<%= scripts_dir %>/deletedata.sh
+
+echo ""
+echo "Restoring services with puppet"
+#puppet agent -t
+cd /opt/puppet-hilary
+puppet apply --verbose --debug --modulepath environments/avocet-dev/modules:modules:/etc/puppet/modules --certname dev0 --environment avocet-dev --hiera_config /etc/puppet/hiera.yaml site.pp
+
+
+echo ""
+echo "Performing production build (this will take a little while)"
+
+service hilary stop
+
+cd <%= ux_root_dir %>
+npm install -d
+npm install -g grunt-cli
+#grunt
+#rm -rf /tmp/target
+#mv target /tmp
+#rm -rf <%= ux_root_dir %>
+#mv /tmp/target/optimized <%= ux_root_dir %>
+#mv /tmp/target/original <%= ux_root_dir %>/../original
+
+service hilary start
+
+DELAY=30
+
+echo ""
+echo "Sleeping ${DELAY}s to let the app server start up"
+sleep $DELAY
+
+# Restarting nginx so it finds the app server up quicker
+service nginx restart
+
+# Create an 'oae' tenant.
+echo ""
+echo "Creating an 'oae' tenant and disabling reCaptcha"
+ADMIN_COOKIE=$(curl -s -e "/" --cookie-jar - -d"username=administrator" -d"password=administrator" http://<%= admin_host %>/api/auth/login | grep connect.sess | cut -f 7)
+curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d "alias=cam" -d"displayName=Cambridge" -d"host=ec2-54-73-99-234.eu-west-1.compute.amazonaws.com" http://<%= admin_host %>/api/tenant/create
+
+# Disable reCaptcha
+curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d "oae-principals/recaptcha/enabled=false" http://<%= admin_host %>/api/config/cam
+
+if [[ "<%= flickr_api_key %>" != "unset" ]] ; then
+    # Configuring the Flickr and SlideShare Preview Processor
+    curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d"oae-preview-processor/flickr/apikey=<%=flickr_api_key %>" -d"oae-preview-processor/flickr/apisecret=<%=flickr_api_secret %>" -d"oae-preview-processor/slideshare/sharedsecret=<%=slideshare_shared_secret %>" -d"oae-preview-processor/slideshare/apikey=<%= slideshare_api_key %>" http://<%= admin_host %>/api/config
+fi
+
+# Enable uploading publications
+curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d "oae-publications/publications/allowUserEntry=true" http://<%= admin_host %>/api/config/cam
+
+# Enable the Google strategy
+curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d "oae-authentication/google/enabled=true" -d"oae-authentication/google/key=832766182042-er6qqh5nqitn30oqrtad7mvgcadl6dcr.apps.googleusercontent.com" -d"oae-authentication/google/secret=MKo6exTvIM8_tiJDt1t4zYWz" http://<%= admin_host %>/api/config/cam
+
