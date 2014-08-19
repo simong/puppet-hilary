@@ -3,6 +3,7 @@
 
     "app_install_method": "git",
 
+    "app_ui_path": "/opt/3akai-ux/optimized",
     "ux_install_method": "archive",
     "ux_install_config": {
         "version_major_minor": "7.2",
