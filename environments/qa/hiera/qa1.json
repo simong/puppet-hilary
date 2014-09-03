@@ -2,5 +2,6 @@
     "classes": [
         "::oaeservice::firewall::ping"
     ],
-    "web_domain": "oae-qa1.oaeproject.org",
+
+    "web_domain": "oae-qa1.oaeproject.org"
 }

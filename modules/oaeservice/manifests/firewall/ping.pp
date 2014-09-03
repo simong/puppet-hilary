@@ -5,7 +5,7 @@ class oaeservice::firewall::ping {
     iniface => 'eth0',
     proto   => 'icmp',
     state   => ['NEW', 'ESTABLISHED', 'RELATED'],
-    icmp    => 8
+    icmp    => 8,
     jump    => 'ACCEPT',
   }
 }
